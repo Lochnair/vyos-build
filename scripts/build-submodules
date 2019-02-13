@@ -292,7 +292,6 @@ for PKG in mdns-repeater \
            vyatta-openvpn \
            vyatta-ravpn \
            vyatta-wanloadbalance \
-           vyatta-webgui \
            vyatta-webproxy \
            vyatta-wireless \
            vyatta-wirelessmodem \
