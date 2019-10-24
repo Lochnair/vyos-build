@@ -1,5 +1,3 @@
 gdb
 strace
-aptitude
 apt-rdepends
-linux-perf

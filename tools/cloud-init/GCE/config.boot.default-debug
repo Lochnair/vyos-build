@@ -1,3 +1,14 @@
+interfaces {
+    ethernet eth0 {
+        address dhcp
+    }
+}
+service {
+    ssh {
+        port 8022
+        client-keepalive-interval 180
+    }
+}
 system {
     host-name vyos
     syslog {
@@ -17,7 +28,7 @@ system {
     }
     console {
         device ttyS0 {
-            speed 115200
+            speed 38400
         }
     }
     config-management {
