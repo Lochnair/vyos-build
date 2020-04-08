@@ -134,7 +134,7 @@ AWS: clean prepare
 	@echo "It's not like I'm building this specially for you or anything!"
 	mkdir -p build/config/includes.chroot/etc/cloud/cloud.cfg.d
 	cp tools/cloud-init/AWS/90_dpkg.cfg build/config/includes.chroot/etc/cloud/cloud.cfg.d/
-	cp tools/cloud-init/cloud-init.list.chroot build/config/package-lists/
+	cp tools/cloud-init/AWS/cloud-init.list.chroot build/config/package-lists/
 	cp -f tools/cloud-init/AWS/config.boot.default build/config/includes.chroot/opt/vyatta/etc/
 	cd $(build_dir)
 	lb build 2>&1 | tee build.log
@@ -193,6 +193,62 @@ PACKET-debug: clean prepare
 	cp tools/cloud-init/PACKET/90_dpkg.cfg build/config/includes.chroot/etc/cloud/cloud.cfg.d/
 	cp tools/cloud-init/cloud-init.list.chroot build/config/package-lists/
 	cp -f tools/cloud-init/PACKET/config.boot.default-debug build/config/includes.chroot/opt/vyatta/etc/config.boot.default
+	cd $(build_dir)
+	lb build 2>&1 | tee build.log
+	cd ..
+	@scripts/copy-image
+
+.PHONY: vep4600
+.ONESHELL:
+vep4600: check_build_config clean prepare
+	@set -e
+	@echo "It's not like I'm building this specially for you or anything!"
+	mkdir -p build/config/includes.chroot/etc/systemd/network
+	mkdir -p build/config/includes.chroot/usr/share/initramfs-tools/hooks
+	cp tools/dell/90-vep.chroot build/config/hooks/live/
+	cp tools/dell/vep4600/*.link build/config/includes.chroot/etc/systemd/network/
+	cp tools/dell/vep-hook build/config/includes.chroot/usr/share/initramfs-tools/hooks/
+	cd $(build_dir)
+	lb build 2>&1 | tee build.log
+	cd ..
+	@scripts/copy-image
+
+.PHONY: vep1400
+.ONESHELL:
+vep1400: check_build_config clean prepare
+	@set -e
+	@echo "It's not like I'm building this specially for you or anything!"
+	mkdir -p build/config/includes.chroot/etc/systemd/network
+	mkdir -p build/config/includes.chroot/usr/share/initramfs-tools/hooks
+	cp tools/dell/90-vep.chroot build/config/hooks/live/
+	cp tools/dell/vep1400/*.link build/config/includes.chroot/etc/systemd/network/
+	cp tools/dell/vep-hook build/config/includes.chroot/usr/share/initramfs-tools/hooks/
+	cd $(build_dir)
+	lb build 2>&1 | tee build.log
+	cd ..
+	@scripts/copy-image
+
+.PHONY: edgecore
+.ONESHELL:
+edgecore: check_build_config clean prepare
+	@set -e
+	@echo "It's not like I'm building this specially for you or anything!"
+	mkdir -p build/config/includes.chroot/lib/udev/rules.d/
+	cp tools/vendors_udev/64-vyos-SAF51015I-net.rules build/config/includes.chroot/lib/udev/rules.d/
+	cp tools/vendors_udev/64-vyos-SAF51003I-net.rules build/config/includes.chroot/lib/udev/rules.d/
+	cd $(build_dir)
+	lb build 2>&1 | tee build.log
+	cd ..
+	@scripts/copy-image
+
+.PHONY: dell
+.ONESHELL:
+dell: check_build_config clean prepare
+	@set -e
+	@echo "It's not like I'm building this specially for you or anything!"
+	mkdir -p build/config/includes.chroot/lib/udev/rules.d/
+	cp tools/vendors_udev/64-vyos-VEP4600-net.rules build/config/includes.chroot/lib/udev/rules.d/
+	cp tools/vendors_udev/64-vyos-VEP1400-net.rules build/config/includes.chroot/lib/udev/rules.d/
 	cd $(build_dir)
 	lb build 2>&1 | tee build.log
 	cd ..
